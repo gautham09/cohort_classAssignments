@@ -1,0 +1,38 @@
+<html>
+    <script>
+        let globalid = 1;
+        function markAsRead(id){
+            const parent = document.getElementById(id);
+            parent.children[2].innerHTML = "Done!";
+        }
+        function createChild(title, description, id){
+            const child = document.createElement("div");
+            const grandChild_1 = document.createElement("div");
+            const grandChild_2 = document.createElement("div");
+            const grandChild_3 = document.createElement("button");
+            grandChild_1.innerHTML = title;
+            grandChild_2.innerHTML = description;
+            grandChild_3.innerHTML = "Mark As Read";
+            grandChild_3.setAttribute("onClick", `markAsRead(${id})`);
+            child.appendChild(grandChild_1);
+            child.appendChild(grandChild_2);
+            child.appendChild(grandChild_3);
+            child.setAttribute("id", id);
+            return child;
+        }
+        function addTodo(){
+            const title = document.getElementById("title").value;
+            const description = document.getElementById("description").value;
+            
+            const parent = document.getElementById("container").appendChild(createChild(title, description, globalid++));
+        }
+    </script>
+    <div>
+        <input id = "title" type="text" placeholder="title"></input>
+        <br></br>
+        <input id="description" type="text" placeholder="description">
+        <br></br>
+        <button onclick="addTodo()">Add todo</button>
+        <div id = "container"></div>
+    </div>
+</html> 
