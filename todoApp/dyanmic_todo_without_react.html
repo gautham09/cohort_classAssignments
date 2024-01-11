@@ -1,0 +1,46 @@
+<html>
+ <body>
+    <input id = "title" type = "text" placeholder="title">
+    <input id = "description" type="text" placeholder = "description">
+
+    <div id = "container"></div>
+
+    <script>
+        let globalid = 1;
+        function markAsRead(id){
+            const parent = document.getElementById(id);
+            parent.children[2].innerHTML = "Done!";
+        }
+        function createChild(title, description, id){
+            const child = document.createElement("div");
+            const grandChild_1 = document.createElement("div");
+            const grandChild_2 = document.createElement("div");
+            const grandChild_3 = document.createElement("button");
+            grandChild_1.innerHTML = title;
+            grandChild_2.innerHTML = description;
+            grandChild_3.innerHTML = "Mark As Read";
+            grandChild_3.setAttribute("onClick", `markAsRead(${id})`);
+            child.appendChild(grandChild_1);
+            child.appendChild(grandChild_2);
+            child.appendChild(grandChild_3);
+            child.setAttribute("id", id);
+            return child;
+        }
+       
+        function updateDomAccToState(state){
+            const parent = document.getElementById("container");
+            parent.innerHTML = "";
+            for(let i = 0; i < state.length; i++){
+                const child = createChild(state[i].title, state[i].description, state[i].id);
+                parent.appendChild(child);
+            }
+        }
+
+        window.setInterval(async function(){
+            const res = await fetch("https://sum-server.100xdevs.com/todos")
+            const json = await res.json();
+            updateDomAccToState(json.todos);
+        }, 5000)
+    </script>
+ </body>
+</html>
